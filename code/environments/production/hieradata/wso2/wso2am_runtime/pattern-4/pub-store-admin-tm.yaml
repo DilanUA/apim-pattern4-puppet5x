@@ -1,0 +1,64 @@
+# Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+wso2::hostname: pubstoretm1.int.abc.com
+wso2::mgt_hostname: pubstoretm1.int.abc.com
+wso2::product_profile: pub-store-admin-tm
+
+wso2::template_list:
+   - repository/conf/api-manager.xml
+   - repository/conf/metrics.xml
+
+#api-manager.xml
+wso2::analytics:
+  enabled : false
+
+wso2::auth_manager:
+  authentication_host: km1.int.abc.com
+
+wso2::oauth_configurations:
+  revocation_host: gw1.int.abc.com
+
+wso2::api_store:
+  host: pubstoretm1.int.abc.com
+
+wso2::key_validator:
+  host: km1.int.abc.com
+  client_type: WSClient
+  enable_thrift_server: false
+
+wso2::throttling:
+  enable_advance_throttling: true
+  traffic_manager:
+    receiver_url_group: ssl://pubstoretm1.int.abc.com:9611,ssl://pubstoretm2.int.abc.com:9611
+    auth_url_group: ssl://pubstoretm1.int.abc.com:9711,ssl://pubstoretm2.int.abc.com:9711
+  policy_deployer:
+    enabled: true
+    host: pubstoretm1.int.abc.com
+  block_condition:
+    enabled: false
+  jms_connection_details:
+    enabled: false
+    connection_factory: amqp://${admin.username}:${admin.password}@clientid/carbon?brokerlist='tcp://${carbon.local.ip}:${jms.port}'
+
+wso2::environments:
+  default:
+    name: "internal-gateway"
+    server_url: https://gw1.int.abc.com/services/
+    gateway_endpoint: https://gw1.int.abc.com
+  ext_gw:
+      name: "external-gateway"
+      server_url: https://gw1.ext.abc.com/services/
+      gateway_endpoint: https://gw1.ext.abc.com

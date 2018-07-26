@@ -1,0 +1,9 @@
+product_name: 'wso2am_runtime'
+product_version: '2.5.0'
+product_profile: 'gw-external'
+environment: 'production'
+use_hieradata: true
+platform: 'default'
+pattern: 'pattern-4'
+osfamily: 'redhat'
+osversion: 7

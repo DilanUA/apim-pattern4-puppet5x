@@ -1,0 +1,45 @@
+# Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+wso2::hostname: km1.int.abc.com
+wso2::mgt_hostname: km1.int.abc.com
+wso2::product_profile: km
+
+wso2::template_list:
+   - repository/conf/api-manager.xml
+   - repository/conf/metrics.xml
+
+#api-manager.xml
+wso2::analytics:
+  enabled : false
+
+wso2::key_validator:
+  host: km1.int.abc.com
+  client_type: WSClient
+  enable_thrift_server: false
+
+wso2::throttling:
+  enable_advance_throttling: false
+  traffic_manager:
+    receiver_url_group: tcp://${carbon.local.ip}:${receiver.url.port}
+    auth_url_group: ssl://${carbon.local.ip}:${auth.url.port}
+  policy_deployer:
+    enabled: false
+    host: localhost
+  block_condition:
+    enabled: false
+  jms_connection_details:
+    enabled: false
+    connection_factory: amqp://${admin.username}:${admin.password}@clientid/carbon?brokerlist='tcp://${carbon.local.ip}:${jms.port}'
